@@ -29,18 +29,18 @@ namespace GameService.Controllers
             return View();
         }
 
-        [HttpGet("{id}")]
-        // GET: GameController/Details/5
-        public ActionResult Details(int id)
-        {
-            ReturnObject ro = new ReturnObject
-            {
-                Valid = true,
-                Message = "Game started"
-            };
-            //return $"{id}";
-            return new JsonResult(ro);
-        }
+        //[HttpGet("{id}")]
+        //// GET: GameController/Details/5
+        //public ActionResult Details(int id)
+        //{
+        //    ReturnObject ro = new ReturnObject
+        //    {
+        //        Valid = true,
+        //        Message = "Game started"
+        //    };
+        //    //return $"{id}";
+        //    return new JsonResult(ro);
+        //}
 
         // GET: GameController/Create
         public ActionResult Create()
@@ -50,9 +50,9 @@ namespace GameService.Controllers
 
         [HttpPost("NewGame")]
         //[ValidateAntiForgeryToken]
-        public ActionResult NewGame([FromBody] string s)
-        {
-            _manager.SetGame(s);
+        public ActionResult NewGame([FromBody] GameSettings s)
+        {   
+            _manager.SetGame(s.Game, (bool)s.Machine);
             return new JsonResult(_manager.StartGame());
         }
 

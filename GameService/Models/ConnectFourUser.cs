@@ -45,6 +45,13 @@ namespace GameService.Models
                 return ro;
             }
 
+            if (model.IsGameOver())
+            {
+                ro.Valid = false;
+                ro.Message = "Game is over";
+                return ro;
+            }
+
             ro.Valid = true;
 
             // Then puts in the disk and checks if that won the game

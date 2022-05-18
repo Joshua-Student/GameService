@@ -9,11 +9,13 @@ namespace GameService.Models
     public class Manager : IManager
     {
         string Game;
+        bool Machine;
         public ConnectFourUser user;
+        public ConnectFourMachine machine;
 
         //public ConnectFourUser User { get; set; }
 
-        IGame IManager.User { get; set; }
+        //IGame IManager.User { get; set; }
 
         public Manager()
         {
@@ -28,6 +30,11 @@ namespace GameService.Models
                 ConnectFourModel model = new ConnectFourModel();
                 user = new ConnectFourUser(model);
 
+                if(Machine)
+                {
+                    machine = new ConnectFourMachine(model);
+                }
+
                 ro.Valid = true;
                 ro.Message = "Game started";
                 return ro;
@@ -40,19 +47,38 @@ namespace GameService.Models
             }
         }
 
-        public void SetGame(string game)
+        public void SetGame(string game, bool machine)
         {
             Game = game;
+            Machine = machine;
+
         }
 
-        public string GetGame()
-        {
-            return Game;
-        }
+        //public string GetGame()
+        //{
+        //    return Game;
+        //}
 
         public ReturnObject TakeTurn(string move)
         {
-            return user.Move(move);
+            ReturnObject ro = new ReturnObject();
+            ro = user.Move(move);
+
+            if (!ro.Valid)
+            {
+                return ro;
+            }
+
+            if (Machine)
+            {
+                ReturnObject temp = machine.Move();
+                ro.OpponentsMove = temp.OpponentsMove;
+
+                if (temp.Message is not null)
+                    ro.Message = temp.Message;
+            }
+
+            return ro;
         }
     }
 }

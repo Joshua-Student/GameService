@@ -8,11 +8,11 @@ namespace GameService.Services
 {
     public interface IManager
     {
-        public IGame User { get; set; }
+        //public IGame User { get; set; }
 
         //public ConnectFourUser User;
-        public void SetGame(string game);
-        public string GetGame();
+        public void SetGame(string game, bool machine);
+        //public string GetGame();
         public ReturnObject StartGame();
 
         public ReturnObject TakeTurn(string move);

@@ -9,5 +9,6 @@ namespace GameService.Models
     {
         public bool Valid { get; set; }
         public string Message { get; set; }
+        public string OpponentsMove { get; set; }
     }
 }

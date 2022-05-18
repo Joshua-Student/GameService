@@ -8,6 +8,7 @@ namespace GameService.Models
     public class ConnectFourMachine
     {
         ConnectFourModel model;
+        ReturnObject ro;
 
         public ConnectFourMachine(ConnectFourModel model)
         {
@@ -16,7 +17,7 @@ namespace GameService.Models
 
         public ReturnObject Move()
         {
-            ReturnObject ro = new ReturnObject();
+            ro = new ReturnObject();
 
             // Check if you can win
             for (int i = 0; i < 7; i++)
@@ -30,7 +31,7 @@ namespace GameService.Models
                 if (GreedyAlgo(i))
                 {
                     model.RemoveDiskFromBoard(i);
-                    model.TakeTurn(i + 1);
+                    TakeTheTurn(i + 1);
                     ro.OpponentsMove = $"{i + 1}";
                     return ro;
                 }
@@ -51,7 +52,8 @@ namespace GameService.Models
                 {
                     model.RemoveDiskFromBoard(i);
                     model.SwapColor(ref model.currentColor);
-                    model.TakeTurn(i + 1);
+                    TakeTheTurn(i + 1);
+
                     ro.OpponentsMove = $"{i + 1}";
                     return ro;
                 }
@@ -69,11 +71,13 @@ namespace GameService.Models
 
             ro.OpponentsMove = $"{col}";
             // Put in the disk and check if that won the game
-            if (model.TakeTurn(col))
-            {
-                ro.Message = "Machine won";
-                return ro;
-            }
+            TakeTheTurn(col);
+
+            //if (model.TakeTurn(col))
+            //{
+            //    ro.Message = "Machine won";
+            //    return ro;
+            //}
 
             // Then check if the board is full
             if (model.CheckIfBoardIsFull())
@@ -82,6 +86,14 @@ namespace GameService.Models
             }
 
             return ro;
+        }
+
+        public void TakeTheTurn(int i)
+        {
+            if (model.TakeTurn(i))
+            {
+                ro.Message = "Machine won";
+            }
         }
 
         public int GetRandomCol()

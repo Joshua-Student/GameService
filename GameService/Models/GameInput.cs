@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 
 namespace GameService.Models
 {
-    public class ItemTest
+    public class GameInput
     {
-        public string Name { get; set; }
+        public string Game { get; set; }
+        public string Move { get; set; }
     }
 }

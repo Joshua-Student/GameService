@@ -8,7 +8,9 @@ namespace GameService.Models
 {
     public class ConnectFourUser : IGame
     {
-        ConnectFourModel model;
+        
+        readonly ConnectFourModel model;
+        public bool machinePlayer { get; set; }
         public string CurrentMove { get; set; }
         public ConnectFourUser(ConnectFourModel model)
         {
@@ -29,7 +31,6 @@ namespace GameService.Models
             illegalMove = !int.TryParse(move, out col) || col < 1 || col > 7;
             if (illegalMove)
             {
-                //Console.WriteLine("Please pick a number from 1-7...");
                 ro.Valid = false;
                 ro.Message = "Please pick a number from 1-7...";
                 return ro;
@@ -39,7 +40,6 @@ namespace GameService.Models
             illegalMove = model.CheckIfColumnIsFull(col);
             if (illegalMove)
             {
-                //Console.WriteLine("That column is full. Please choose again...");
                 ro.Valid = false;
                 ro.Message = "That column is full. Please choose again...";
                 return ro;
@@ -72,10 +72,15 @@ namespace GameService.Models
             return ro;
         }
 
-        // Currently gets the move from the console
-        public void SetMove(string move)
+        public bool IsMachinePlayer()
         {
-            CurrentMove = move;
+            return machinePlayer;
         }
+
+        // Currently gets the move from the console
+        //public void SetMove(string move)
+        //{
+        //    CurrentMove = move;
+        //}
     }
 }

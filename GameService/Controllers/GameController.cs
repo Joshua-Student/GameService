@@ -52,14 +52,14 @@ namespace GameService.Controllers
         //[ValidateAntiForgeryToken]
         public ActionResult NewGame([FromBody] GameSettings s)
         {   
-            _manager.SetGame(s.Game, (bool)s.Machine);
-            return new JsonResult(_manager.StartGame());
+            //_manager.SetGame(s.Game, (bool)s.Machine);
+            return new JsonResult(_manager.StartGame(s.Game, (bool)s.Machine));
         }
 
         // POST: GameController/Create
         [HttpPost("Post")]
         //[ValidateAntiForgeryToken]
-        public ActionResult Post([FromBody] ItemTest item)
+        public ActionResult Post([FromBody] GameInput item)
         {
             //try
             //{
@@ -71,7 +71,7 @@ namespace GameService.Controllers
             //}
 
             
-            return new JsonResult(_manager.TakeTurn(item.Name));
+            return new JsonResult(_manager.TakeTurn(item.Game,item.Move));
         }
 
         //// GET: GameController/Edit/5

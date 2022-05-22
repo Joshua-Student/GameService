@@ -8,8 +8,7 @@ namespace GameService.Models
     public class TicTacToeUser
     {
         readonly TicTacToeModel model;
-        public bool machinePlayer { get; set; }
-        //public string CurrentMove { get; set; }
+        public bool MachinePlayer { get; set; }
         public TicTacToeUser(TicTacToeModel model)
         {
             this.model = model;
@@ -20,6 +19,13 @@ namespace GameService.Models
             ReturnObject ro = new ReturnObject();
             int spot;
 
+            // Checks if game is in session
+            if (model.IsGameOver())
+            {
+                ro.Valid = false;
+                ro.Message = "Game is over";
+                return ro;
+            }
 
             // Checks if input is legal
             bool illegalMove = !int.TryParse(move, out spot) || spot < 1 || spot > 9;

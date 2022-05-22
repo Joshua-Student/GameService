@@ -73,12 +73,6 @@ namespace GameService.Models
             // Put in the disk and check if that won the game
             TakeTheTurn(col);
 
-            //if (model.TakeTurn(col))
-            //{
-            //    ro.Message = "Machine won";
-            //    return ro;
-            //}
-
             // Then check if the board is full
             if (model.CheckIfBoardIsFull())
             {

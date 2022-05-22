@@ -12,6 +12,8 @@ namespace GameService.Models
         public ConnectFourMachine C_machine;
         public TicTacToeUser T_user;
         public TicTacToeMachine T_machine;
+        public WordleUser W_user;
+        public WordleMachine W_machine;
 
         public Manager()
         {
@@ -29,7 +31,7 @@ namespace GameService.Models
 
                 if (machine)
                 {
-                    C_user.machinePlayer = true;
+                    C_user.MachinePlayer = true;
                     C_machine = new ConnectFourMachine(model);
                 }
 
@@ -44,8 +46,25 @@ namespace GameService.Models
 
                 if (machine)
                 {
-                    T_user.machinePlayer = true;
+                    T_user.MachinePlayer = true;
                     T_machine = new TicTacToeMachine(model);
+                }
+
+                ro.Valid = true;
+                ro.Message = "Game started";
+                return ro;
+            }
+            if (game == "Wordle")
+            {
+                WordleModel model = new WordleModel();
+                W_user = new WordleUser(model);
+
+                if (machine)
+                {
+                    W_user.MachinePlayer = true;
+                    W_machine = new WordleMachine(model);
+                    ro = W_machine.Move();
+                    return ro;
                 }
 
                 ro.Valid = true;
@@ -60,18 +79,6 @@ namespace GameService.Models
             }
         }
 
-        //public void SetGame(string game, bool machine)
-        //{
-        //    Game = game;
-        //    Machine = machine;
-
-        //}
-
-        //public string GetGame()
-        //{
-        //    return Game;
-        //}
-
         public ReturnObject TakeTurn(string game, string move)
         {
             ReturnObject ro = new ReturnObject();
@@ -83,10 +90,35 @@ namespace GameService.Models
                 case "TicTacToe":
                     ro = TicTacToeTurn(move);
                     break;
+                case "Wordle":
+                    ro = WordleTurn(move);
+                    break;
                 default:
                     ro.Valid = false;
                     ro.Message = "Invalid Game";
                     break;
+            }
+
+            return ro;
+        }
+
+        private ReturnObject WordleTurn(string move)
+        {
+            ReturnObject ro = new ReturnObject();
+            ro = W_user.Move(move);
+
+            if (!ro.Valid)
+            {
+                return ro;
+            }
+
+            if (W_user.MachinePlayer)
+            {
+                ReturnObject temp = W_machine.Move();
+                ro.OpponentsMove = temp.OpponentsMove;
+
+                if (temp.Message is not null)
+                    ro.Message = temp.Message;
             }
 
             return ro;
@@ -102,7 +134,7 @@ namespace GameService.Models
                 return ro;
             }
 
-            if (C_user.machinePlayer)
+            if (C_user.MachinePlayer)
             {
                 ReturnObject temp = C_machine.Move();
                 ro.OpponentsMove = temp.OpponentsMove;
@@ -124,7 +156,7 @@ namespace GameService.Models
                 return ro;
             }
 
-            if (T_user.machinePlayer)
+            if (T_user.MachinePlayer)
             {
                 ReturnObject temp = T_machine.Move();
                 ro.OpponentsMove = temp.OpponentsMove;

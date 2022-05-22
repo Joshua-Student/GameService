@@ -15,12 +15,8 @@ namespace GameService
     {
         public static void Main(string[] args)
         {
-            var host = CreateHostBuilder(args);
+            CreateHostBuilder(args).Build().Run();
 
-            //host.Services.AddScoped<IManager, Manager>();
-            //var context = scope.ServiceProvider.GetService<CityInfoContext>();
-
-            host.Build().Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace GameService.Models
 {
-    public class ConnectFourUser : IGame
+    public class ConnectFourUser
     {
-        
+
         readonly ConnectFourModel model;
-        public bool machinePlayer { get; set; }
+        public bool MachinePlayer { get; set; }
         public string CurrentMove { get; set; }
         public ConnectFourUser(ConnectFourModel model)
         {
@@ -23,9 +23,13 @@ namespace GameService.Models
             int col;
             bool illegalMove;
 
-
-            // Gets the the move from an external source
-            //string move = CurrentMove;
+            // Checks if game is in session
+            if (model.IsGameOver())
+            {
+                ro.Valid = false;
+                ro.Message = "Game is over";
+                return ro;
+            }
 
             // Checks if move is valid
             illegalMove = !int.TryParse(move, out col) || col < 1 || col > 7;
@@ -42,13 +46,6 @@ namespace GameService.Models
             {
                 ro.Valid = false;
                 ro.Message = "That column is full. Please choose again...";
-                return ro;
-            }
-
-            if (model.IsGameOver())
-            {
-                ro.Valid = false;
-                ro.Message = "Game is over";
                 return ro;
             }
 
@@ -74,13 +71,8 @@ namespace GameService.Models
 
         public bool IsMachinePlayer()
         {
-            return machinePlayer;
+            return MachinePlayer;
         }
 
-        // Currently gets the move from the console
-        //public void SetMove(string move)
-        //{
-        //    CurrentMove = move;
-        //}
     }
 }

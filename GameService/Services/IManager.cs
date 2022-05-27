@@ -15,6 +15,6 @@ namespace GameService.Services
         //public string GetGame();
         public ReturnObject StartGame(string game, bool machine);
 
-        public ReturnObject TakeTurn(string game, string move);
+        public ReturnObject TakeTurn(string game, Guid guid, string move);
     }
 }

@@ -32,15 +32,15 @@ namespace GameService.Controllers
         [HttpPost("NewGame")]
         //[ValidateAntiForgeryToken]
         public ActionResult NewGame([FromBody] GameSettings s)
-        {   
+        {
             return new JsonResult(_manager.StartGame(s.Game, (bool)s.Machine));
         }
 
         [HttpPost("TakeTurn")]
         //[ValidateAntiForgeryToken]
         public ActionResult Post([FromBody] GameInput item)
-        {   
-            return new JsonResult(_manager.TakeTurn(item.Game,item.Move));
+        {
+            return new JsonResult(_manager.TakeTurn(item.Game, item.Guid, item.Move));
         }
 
     }

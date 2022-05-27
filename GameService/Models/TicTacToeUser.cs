@@ -8,10 +8,17 @@ namespace GameService.Models
     public class TicTacToeUser
     {
         readonly TicTacToeModel model;
+        TicTacToeMachine machine;
         public bool MachinePlayer { get; set; }
-        public TicTacToeUser(TicTacToeModel model)
+        public TicTacToeUser(TicTacToeModel model, bool machineOn)
         {
             this.model = model;
+
+            if (machineOn)
+            {
+                machine = new TicTacToeMachine(model);
+                MachinePlayer = true;
+            }
         }
 
         public ReturnObject Move(string move)
@@ -64,6 +71,15 @@ namespace GameService.Models
             ro.Message = "Move successful";
             return ro;
 
+        }
+        public ReturnObject MachineTurn()
+        {
+            return machine.Move();
+        }
+
+        public bool HasMachinePlayer()
+        {
+            return MachinePlayer;
         }
 
     }

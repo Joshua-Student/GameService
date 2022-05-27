@@ -8,6 +8,7 @@ namespace GameService.Models
     public class GameInput
     {
         public string Game { get; set; }
+        public Guid Guid { get; set; }
         public string Move { get; set; }
     }
 }

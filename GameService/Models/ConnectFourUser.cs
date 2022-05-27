@@ -10,11 +10,17 @@ namespace GameService.Models
     {
 
         readonly ConnectFourModel model;
+        ConnectFourMachine machine;
         public bool MachinePlayer { get; set; }
-        public string CurrentMove { get; set; }
-        public ConnectFourUser(ConnectFourModel model)
+        public ConnectFourUser(ConnectFourModel model, bool machineOn)
         {
             this.model = model;
+
+            if (machineOn)
+            {
+                machine = new ConnectFourMachine(model);
+                MachinePlayer = true;
+            }
         }
 
         public ReturnObject Move(string move)
@@ -69,7 +75,12 @@ namespace GameService.Models
             return ro;
         }
 
-        public bool IsMachinePlayer()
+        public ReturnObject MachineTurn()
+        {
+            return machine.Move();
+        }
+
+        public bool HasMachinePlayer()
         {
             return MachinePlayer;
         }
